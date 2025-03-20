@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CheckNeighboursInGrid {
+public CheckNeighboursInGrid(){}
 /**
 * This method takes a 1D Iterable and an element in the array and gives back an iterable containing the indexes of all neighbours with the same value as the specified element
 *@return - Returns a 1D Iterable of ints, the Integers represent the indexes of all neighbours with the same value as the specified element on index 'indexToCheck'.
@@ -14,6 +15,10 @@ public class CheckNeighboursInGrid {
 */
 public static Iterable<Integer> getSameNeighboursIds(Iterable<Integer> grid,int width, int height, int indexToCheck){
     
+    if (indexToCheck > (width * height) - 1){
+        throw new IndexOutOfBoundsException("Index " + indexToCheck + " ligt buiten de grenzen van de array.");
+    }
+
     /* 
     Eerste stappen:
         1) Aanmaken van een resultaatlijst die men terug kan geven (return)
@@ -21,7 +26,7 @@ public static Iterable<Integer> getSameNeighboursIds(Iterable<Integer> grid,int 
         3) Zoeken naar de waarde die men moet nakijken (Waarde kopieren op de gegeven index in de lijst).
     */
 
-    List<Integer> result = new ArrayList<>();
+    ArrayList<Integer> result = new ArrayList<>();
 
     List<Integer> grid_listed = new ArrayList<>();
     for(Integer element : grid){
@@ -42,7 +47,13 @@ public static Iterable<Integer> getSameNeighboursIds(Iterable<Integer> grid,int 
 
     int possible_index;
 
-        // Orthogonale buren:
+        // Links-bovenbuur
+    if (index_row > 0 && index_column > 0){                         // Is rij / kolom niet de bovenste / meest linkse?
+        possible_index = indexToCheck - width - 1;                  // Verander de mogelijke index.
+        if (grid_listed.get(possible_index) == value_to_check){     // Voeg de index toe als zijn waarde overeenkomt.
+            result.add(possible_index);
+        }
+    }
 
         // Bovenbuur
     if (index_row > 0){                                             // Is de rij niet de bovenste?
@@ -52,9 +63,9 @@ public static Iterable<Integer> getSameNeighboursIds(Iterable<Integer> grid,int 
         }
     }
 
-        // Onderbuur
-    if (index_row < (height - 1)){                                  // Is rij niet de onderste?
-        possible_index = indexToCheck + width;                      // Verander de mogelijke index.
+        // Rechts-bovenbuur
+    if (index_row > 0 && index_column < (width - 1)){               // Is rij / kolom niet de bovenste / meest rechtse?
+        possible_index = indexToCheck - width + 1;                  // Verander de mogelijke index.
         if (grid_listed.get(possible_index) == value_to_check){     // Voeg de index toe als zijn waarde overeenkomt.
             result.add(possible_index);
         }
@@ -76,27 +87,17 @@ public static Iterable<Integer> getSameNeighboursIds(Iterable<Integer> grid,int 
         }
     }
 
-        // Diagonale buren:
-
-        // Links-bovenbuur
-    if (index_row > 0 && index_column > 0){                         // Is rij / kolom niet de bovenste / meest linkse?
-        possible_index = indexToCheck - width - 1;                  // Verander de mogelijke index.
-        if (grid_listed.get(possible_index) == value_to_check){     // Voeg de index toe als zijn waarde overeenkomt.
-            result.add(possible_index);
-        }
-    }
-
-        // Rechts-bovenbuur
-    if (index_row > 0 && index_column < (width - 1)){               // Is rij / kolom niet de bovenste / meest rechtse?
-        possible_index = indexToCheck - width + 1;                  // Verander de mogelijke index.
-        if (grid_listed.get(possible_index) == value_to_check){     // Voeg de index toe als zijn waarde overeenkomt.
-            result.add(possible_index);
-        }
-    }
-
         // Links-onderbuur
     if (index_row < (height - 1) && index_column > 0){              // Is rij / kolom niet de onderste / meest linkse?
         possible_index = indexToCheck + width - 1;                  // Verander de mogelijke index.
+        if (grid_listed.get(possible_index) == value_to_check){     // Voeg de index toe als zijn waarde overeenkomt.
+            result.add(possible_index);
+        }
+    }
+
+        // Onderbuur
+    if (index_row < (height - 1)){                                  // Is rij niet de onderste?
+        possible_index = indexToCheck + width;                      // Verander de mogelijke index.
         if (grid_listed.get(possible_index) == value_to_check){     // Voeg de index toe als zijn waarde overeenkomt.
             result.add(possible_index);
         }
