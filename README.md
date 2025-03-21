@@ -1,0 +1,1 @@
+![example workflow](https://github.com/KULeuven-Diepenbeek/opdrachten-deel-1-2425-CTRL-Florian/actions/workflows/gradle.yml/badge.svg)
